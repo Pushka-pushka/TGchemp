@@ -24,9 +24,11 @@ const ControlPanel = ({ onAction }) => {
       <div className="control-panel">
         <div>
           <label>Режим регулятора:</label>
-          <select value={mode} onChange={(e) => handleModeChange(e.target.value)}>
+          <select value={mode} onChange={(e) => handleModeChange(e.target.value)}aria-label="Режим работы регулятора"  // ✅ Добавьте это
+          >
             <option value="AUTO">AUTO</option>
             <option value="MANUAL">MANUAL</option>
+            
           </select>
         </div>
         <div>
@@ -37,6 +39,7 @@ const ControlPanel = ({ onAction }) => {
             max="100"
             value={valveOpen}
             onChange={(e) => handleValveChange(Number(e.target.value))}
+            aria-label="Открытие регулирующего клапана в процентах"  // ✅ Добавьте это
           />
         </div>
       </div>

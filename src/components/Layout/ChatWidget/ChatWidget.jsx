@@ -2,15 +2,16 @@
 import { useState } from 'react';
 import ChatButton from './ChatButton';
 import ChatPanel from './ChatPanel';
+import useChatStore from '../../../store/chatStore';
 import './ChatWidget.css';
 
 const ChatWidget = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, toggleOpen } = useChatStore();
 
   return (
     <div className="chat-widget">
-      {isOpen && <ChatPanel onClose={() => setIsOpen(false)} />}
-      <ChatButton onClick={() => setIsOpen(!isOpen)} isOpen={isOpen} />
+      {isOpen && <ChatPanel onClose={toggleOpen} />}
+      <ChatButton onClick={toggleOpen} isOpen={isOpen} />
     </div>
   );
 };

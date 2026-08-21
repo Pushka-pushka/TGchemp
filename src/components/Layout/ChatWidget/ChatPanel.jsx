@@ -1,7 +1,7 @@
 // src/components/layout/ChatWidget/ChatPanel.jsx
 import { useState } from 'react';
-import useChatStore from '../../store/chatStore';
-import { queryAI } from '../../api/rag';
+import useChatStore from '../../../store/chatStore';
+import { queryAI } from '../../../api/rag';
 
 const ChatPanel = ({ onClose }) => {
   const { 
@@ -9,8 +9,7 @@ const ChatPanel = ({ onClose }) => {
     isLoading, 
     context, 
     addMessage, 
-    setLoading,
-    currentObject // Добавим в стор
+    setLoading 
   } = useChatStore();
   
   const [input, setInput] = useState('');
@@ -18,28 +17,15 @@ const ChatPanel = ({ onClose }) => {
   const handleSend = async () => {
     if (!input.trim()) return;
     
-    const userMessage = { 
-      text: input, 
-      sender: 'user' 
-    };
+    const userMessage = { text: input, sender: 'user' };
     addMessage(userMessage);
     setInput('');
     setLoading(true);
 
     try {
-      // Формируем контекстный промпт
       let contextPrompt = input;
-      
       if (context) {
-        // Добавляем контекст из стора
-        contextPrompt = `${context}`;
-        
-        // Если есть выбранный объект в редакторе
-        if (currentObject) {
-          contextPrompt += ` Текущий объект на схеме: ${currentObject.name} (ID: ${currentObject.object_id}).`;
-        }
-        
-        contextPrompt += ` Вопрос пользователя: ${input}`;
+        contextPrompt = `${context} Вопрос пользователя: ${input}`;
       }
       
       const response = await queryAI({ question: contextPrompt });
@@ -65,16 +51,13 @@ const ChatPanel = ({ onClose }) => {
     <div className="chat-panel">
       <div className="chat-header">
         <span>🤖 ИИ-ассистент КТК</span>
-        <button onClick={onClose}>✕</button>
+        <button onClick={onClose} className="close-btn">✕</button>
       </div>
       
       <div className="chat-messages">
         {messages.length === 0 && (
           <div className="chat-welcome">
             <p>👋 Задайте вопрос по работе с установкой ЭЛОУ-АВТ</p>
-            {context && (
-              <p className="chat-context">📍 Контекст: {context}</p>
-            )}
           </div>
         )}
         {messages.map((msg, idx) => (

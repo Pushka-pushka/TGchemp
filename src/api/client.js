@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/api/v1', // URL вашего бэкенда
+  baseURL: 'http://localhost:8000', // URL вашего бэкенда
   headers: {
     'Content-Type': 'application/json',
   },

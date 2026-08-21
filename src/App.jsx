@@ -5,6 +5,7 @@ import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { StudentDashboard } from './components/student/StudentDashboard';
 import { InstructorDashboard } from './components/instructor/InstructorDashboard';
 import { useAuth } from './hooks';
+import ChatWidget from './components/layout/ChatWidget/ChatWidget';
 
 const theme = createTheme({
   palette: {
@@ -51,6 +52,7 @@ function App() {
           <Route path="/" element={<RootRedirect />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        <ChatWidget />
       </BrowserRouter>
     </ThemeProvider>
   );

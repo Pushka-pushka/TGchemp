@@ -1,8 +1,9 @@
 // src/components/features/Canvas/Canvas.jsx
-import { useDrop } from 'react-dnd'; // или используйте нативный onDrop
+import { useDrop } from 'react-dnd';
 import { addObjectToScheme } from '../../api/schemes';
+import useSchemeStore from '../../store/schemeStore';
 
-const Canvas = ({ schemeId }) => {
+const Canvas = ({ schemeId, onSelectObject }) => {
   const { objects, connections, addObject } = useSchemeStore();
 
   const onDrop = async (event) => {
@@ -27,6 +28,13 @@ const Canvas = ({ schemeId }) => {
     }
   };
 
+  // Обработчик клика по объекту
+  const handleObjectClick = (object) => {
+    if (onSelectObject) {
+      onSelectObject(object);
+    }
+  };
+
   return (
     <div
       className="canvas"
@@ -34,7 +42,11 @@ const Canvas = ({ schemeId }) => {
       onDragOver={(e) => e.preventDefault()}
     >
       {objects.map((obj) => (
-        <SchemeObject key={obj.object_id} data={obj} />
+        <SchemeObject 
+          key={obj.object_id} 
+          data={obj} 
+          onClick={() => handleObjectClick(obj)}
+        />
       ))}
       {connections.map((conn) => (
         <SchemeConnection key={conn.connection_id} data={conn} />
@@ -42,3 +54,5 @@ const Canvas = ({ schemeId }) => {
     </div>
   );
 };
+
+export default Canvas;
